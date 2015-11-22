@@ -1,0 +1,8 @@
+.c
+.cc
+.h
+.cpp
+.mm
+.py
+.swp
+.git
