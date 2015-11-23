@@ -4,12 +4,9 @@
 from datetime import datetime
 import argparse
 import io
-import json
 import os
 import re
-import shutil
 import string
-import subprocess
 import sys
 import time
 
@@ -40,23 +37,22 @@ class Replace():
         printProgress = PrintProgress('DoReplace')
         if os.path.isfile(self.input_files):
             if not self.is_excluded(self.input_files):
-                self.repalce_and_save(self.input_files)
+                self.replace_and_save(self.input_files)
         else:
             for root,dirs,files in os.walk(self.input_files):
                 for file in files:
                     input_file = root + os.sep + file
                     if self.is_excluded(file):
                         continue
-                    self.repalce_and_save(input_file)
+                    self.replace_and_save(input_file)
         printProgress.printSpendingTime()
 
-    def repalce_and_save(self, input_file):
+    def replace_and_save(self, input_file):
         f = open(input_file,'r+')
-        all_the_lines=f.readlines()
+        content=f.read()
         f.seek(0)
         f.truncate()
-        for line in all_the_lines:
-            f.write(line.replace(self.searched_str, self.replace_str))
+        f.write(content.replace(self.searched_str, self.replace_str))
         f.close()
 
     def is_excluded(self, file):
