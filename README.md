@@ -1,7 +1,7 @@
 ### Super Replace
 Traverse a given directory or a given file , replace searched string with new string.
 
-###Usage
+### Usage
 ```shell
 replace.py [-h] [-i INPUT] [-s SEARCH] [-r REPLACE] [-e EXCLUDE]
 
