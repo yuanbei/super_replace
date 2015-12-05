@@ -1,4 +1,4 @@
-### superreplace
+### Super Replace
 Traverse a given directory or a given file , replace searched string with new string.
 
 ###Usage
