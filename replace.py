@@ -10,7 +10,9 @@ import string
 import sys
 import time
 
+
 class PrintProgress():
+
     def __init__(self, taskName):
         self.taskName = taskName
         self.beginTime = datetime.now()
@@ -19,19 +21,20 @@ class PrintProgress():
         self.endTime = datetime.now()
         print '%s Begins at :%s' % (self.taskName, self.beginTime)
         print '%s Ends at   :%s' % (self.taskName, self.endTime)
-        print 'Spend time: %s \n'%(self.endTime - self.beginTime)
+        print 'Spend time: %s \n' % (self.endTime - self.beginTime)
         print 'Finish!'
+
 
 class Replace():
 
     def __init__(self, parameters):
-       self.input_files = parameters.input;
-       self.searched_str = parameters.search;
-       self.replace_str = parameters.replace;
-       self.exclude_files = []
+        self.input_files = parameters.input
+        self.searched_str = parameters.search
+        self.replace_str = parameters.replace
+        self.exclude_files = []
 
-       with io.open(parameters.exclude, 'r') as handle:
-           self.exclude_files = handle.readlines()
+        with io.open(parameters.exclude, 'r') as handle:
+            self.exclude_files = handle.readlines()
 
     def DoReplace(self):
         printProgress = PrintProgress('DoReplace')
@@ -39,7 +42,7 @@ class Replace():
             if not self.is_excluded(self.input_files):
                 self.replace_and_save(self.input_files)
         else:
-            for root,dirs,files in os.walk(self.input_files):
+            for root, dirs, files in os.walk(self.input_files):
                 for file in files:
                     input_file = root + os.sep + file
                     if self.is_excluded(file):
@@ -48,8 +51,8 @@ class Replace():
         printProgress.printSpendingTime()
 
     def replace_and_save(self, input_file):
-        f = open(input_file,'r+')
-        content=f.read()
+        f = open(input_file, 'r+')
+        content = f.read()
         f.seek(0)
         f.truncate()
         f.write(content.replace(self.searched_str, self.replace_str))
@@ -62,26 +65,30 @@ class Replace():
                 return True
         return False
 
+
 def main():
-    parser = argparse.ArgumentParser(description='Traverse a given dictionary or a given file , replace searched string with new string.')
+    DESCRIPTION = 'Traverse a given dictionary or a given file, ' \
+        'replace searched string with new string.'
+    parser = argparse.ArgumentParser(
+        description=DESCRIPTION)
     parser.add_argument(
-      '-i', '--input', type=str,
-      help='path to a dictionary or a file'
+        '-i', '--input', type=str,
+        help='Path to a dictionary or a file'
     )
 
     parser.add_argument(
-      '-s', '--search', type=str,
-      help='searched string'
+        '-s', '--search', type=str,
+        help='Searched string'
     )
 
     parser.add_argument(
-      '-r', '--replace', type=str,
-      help='replace string'
+        '-r', '--replace', type=str,
+        help='Replace string'
     )
 
     parser.add_argument(
-      '-e', '--exclude', type=str,
-      help='excluded files list'
+        '-e', '--exclude', type=str,
+        help='Excluded files list'
     )
 
     parameters = parser.parse_args()
